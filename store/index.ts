@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+import { KEY_APP_NAME, KEY_TOKEN } from "@/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
 import { Order } from "../types/order";
@@ -24,10 +25,30 @@ interface IStore {
   setTermOfService: (termOfService: TermOfService) => void;
   appName: string;
   setAppName: (appName: string) => void;
+  initialized: boolean;
+  init: () => Promise<void>;
 }
 
-export const KEY_TOKEN = "token";
-export const KEY_APP_NAME = "app_name";
+const getItem = async (key: string) => {
+  if (Platform.OS === "web") {
+    return Promise.resolve(localStorage?.getItem(key));
+  }
+  return AsyncStorage.getItem(key);
+};
+
+const setItem = async (key: string, value: string) => {
+  if (Platform.OS === "web") {
+    return Promise.resolve(localStorage?.setItem(key, value));
+  }
+  return AsyncStorage.setItem(key, value);
+};
+
+const removeItem = async (key: string) => {
+  if (Platform.OS === "web") {
+    return Promise.resolve(localStorage?.removeItem(key));
+  }
+  return AsyncStorage.removeItem(key);
+};
 
 export const useStore = create<IStore>((set) => {
   const initialState: IStore = {
@@ -47,45 +68,39 @@ export const useStore = create<IStore>((set) => {
       set((prev) => ({ ...prev, termOfService })),
     appName: "",
     setAppName: (appName: string) => set((prev) => ({ ...prev, appName })),
+    initialized: false,
+    init: async () => {
+      try {
+        const [token, appName] = await Promise.all([
+          getItem(KEY_TOKEN),
+          getItem(KEY_APP_NAME),
+        ]);
+        set((prev) => ({
+          ...prev,
+          token: token,
+          appName: appName || "",
+          initialized: true,
+        }));
+      } catch (e) {
+        console.error(e);
+        set((prev) => ({ ...prev, initialized: true }));
+      }
+    },
   };
-
-  (async () => {
-    try {
-      const [token, appName] = await Promise.all([
-        Platform.select({
-          web: Promise.resolve(localStorage.getItem(KEY_TOKEN)),
-          default: AsyncStorage.getItem(KEY_TOKEN),
-        }),
-        Platform.select({
-          web: Promise.resolve(localStorage.getItem(KEY_APP_NAME)),
-          default: AsyncStorage.getItem(KEY_APP_NAME),
-        }),
-      ]);
-
-      set((prev) => ({
-        ...prev,
-        token: token,
-        appName: appName || "",
-        authLoading: false,
-      }));
-    } catch (e) {
-      set((prev) => ({ ...prev, authLoading: false }));
-    }
-  })();
 
   return initialState;
 });
 
-export const unsubscribeStore = useStore.subscribe((state: IStore) => {
+export const unsubscribeStore = useStore.subscribe(async (state: IStore) => {
   if (state.token) {
-    AsyncStorage.setItem(KEY_TOKEN, state.token);
+    setItem(KEY_TOKEN, state.token);
   } else {
-    AsyncStorage.removeItem(KEY_TOKEN);
+    removeItem(KEY_TOKEN);
   }
 
   if (state.appName) {
-    AsyncStorage.setItem(KEY_APP_NAME, state.appName);
+    setItem(KEY_APP_NAME, state.appName);
   } else {
-    AsyncStorage.removeItem(KEY_APP_NAME);
+    removeItem(KEY_APP_NAME);
   }
 });

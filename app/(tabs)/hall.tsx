@@ -6,7 +6,7 @@ export default function HallScreen() {
 
   return (
     <SafeAreaView>
-      <Text>大厅</Text>
+      <Text>112大厅1</Text>
     </SafeAreaView>
   );
 }

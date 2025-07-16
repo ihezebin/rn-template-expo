@@ -1,15 +1,15 @@
-import { useStore } from "@/store";
+import IconFont from "@/components/IconFont";
 import { Tabs } from "expo-router";
 import React from "react";
-import { Platform, Text } from "react-native";
+import { Platform } from "react-native";
 
 export default function TabLayout() {
-  const { authLoading } = useStore();
-
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarActiveTintColor: "dodgerblue",
+        tabBarInactiveTintColor: "#999",
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
@@ -17,27 +17,30 @@ export default function TabLayout() {
           },
           default: {},
         }),
+        tabBarLabelStyle: {
+          fontSize: 12,
+        },
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="hall"
         options={{
-          title: "大厅",
-          tabBarIcon: ({ color }) => <Text>大厅</Text>,
+          title: "接单",
+          tabBarIcon: ({ color }) => <IconFont name="&#xe607;" />,
         }}
       />
       <Tabs.Screen
         name="orders"
         options={{
           title: "订单",
-          tabBarIcon: ({ color }) => <Text>订单</Text>,
+          tabBarIcon: ({ color }) => <IconFont name="&#xf50a;" />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "我的",
-          tabBarIcon: ({ color }) => <Text>我的</Text>,
+          tabBarIcon: ({ color }) => <IconFont name="&#xe603;" />,
         }}
       />
     </Tabs>
