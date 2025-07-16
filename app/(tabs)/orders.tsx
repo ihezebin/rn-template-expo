@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text } from "react-native";
 
-export default function HallScreen() {
+export default function OrdersScreen() {
   useEffect(() => {}, []);
 
   return (
     <SafeAreaView>
-      <Text>大厅</Text>
+      <Text>订单</Text>
     </SafeAreaView>
   );
 }
