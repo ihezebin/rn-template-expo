@@ -30,24 +30,24 @@ interface IStore {
 }
 
 const getItem = async (key: string) => {
-  if (Platform.OS === "web") {
-    return Promise.resolve(localStorage?.getItem(key));
-  }
-  return AsyncStorage.getItem(key);
+  return await Platform.select({
+    web: Promise.resolve(localStorage?.getItem(key)),
+    default: AsyncStorage.getItem(key),
+  });
 };
 
 const setItem = async (key: string, value: string) => {
-  if (Platform.OS === "web") {
-    return Promise.resolve(localStorage?.setItem(key, value));
-  }
-  return AsyncStorage.setItem(key, value);
+  await Platform.select({
+    web: Promise.resolve(localStorage?.setItem(key, value)),
+    default: AsyncStorage.setItem(key, value),
+  });
 };
 
 const removeItem = async (key: string) => {
-  if (Platform.OS === "web") {
-    return Promise.resolve(localStorage?.removeItem(key));
-  }
-  return AsyncStorage.removeItem(key);
+  await Platform.select({
+    web: Promise.resolve(localStorage?.removeItem(key)),
+    default: AsyncStorage.removeItem(key),
+  });
 };
 
 export const useStore = create<IStore>((set) => {
