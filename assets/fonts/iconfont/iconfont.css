@@ -1,0 +1,97 @@
+@font-face {
+  font-family: "drivepay"; /* Project id 4936839 */
+  /* Color fonts */
+  src: 
+       url('iconfont.woff2?t=1748618506224') format('woff2'),
+       url('iconfont.woff?t=1748618506224') format('woff'),
+       url('iconfont.ttf?t=1748618506224') format('truetype');
+}
+
+.drivepay {
+  font-family: "drivepay" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.drivepay-appointment1:before {
+  content: "\e665";
+}
+
+.drivepay-friend:before {
+  content: "\e6c7";
+}
+
+.drivepay-delivery1:before {
+  content: "\e609";
+}
+
+.drivepay-appointment2:before {
+  content: "\f50a";
+}
+
+.drivepay-appointment3:before {
+  content: "\e812";
+}
+
+.drivepay-roundtrip2:before {
+  content: "\f5ba";
+}
+
+.drivepay-roundtrip3:before {
+  content: "\e6d1";
+}
+
+.drivepay-delivery2:before {
+  content: "\e6bb";
+}
+
+.drivepay-multi-car:before {
+  content: "\e69e";
+}
+
+.drivepay-roundtrip1:before {
+  content: "\e79d";
+}
+
+.drivepay-delivery3:before {
+  content: "\e607";
+}
+
+.drivepay-order:before {
+  content: "\e63f";
+}
+
+.drivepay-my1:before {
+  content: "\e600";
+}
+
+.drivepay-my2:before {
+  content: "\e601";
+}
+
+.drivepay-my4:before {
+  content: "\e602";
+}
+
+.drivepay-my3:before {
+  content: "\e613";
+}
+
+.drivepay-my5:before {
+  content: "\e603";
+}
+
+.drivepay-my1-gray:before {
+  content: "\e604";
+}
+
+.drivepay-my6-gray:before {
+  content: "\e6df";
+}
+
+.drivepay-my6:before {
+  content: "\e6e0";
+}
+
